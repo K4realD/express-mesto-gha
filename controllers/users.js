@@ -16,7 +16,14 @@ const getUserById = (req, res) => {
       res.send(user);
     })
     .catch((err) => {
-      res.status(500).send({ message: `Произошла ошибка: ${err}` });
+      if (err.name === 'CastError') {
+        res.status(400).send({
+          message:
+            'Неверно введены данные',
+        });
+      } else {
+        res.status(500).send({ message: `Произошла ошибка: ${err}` });
+      }
     });
 };
 
