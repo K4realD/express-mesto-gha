@@ -20,6 +20,9 @@ app.use((req, _, next) => {
 });
 app.use('/users', userRoutes);
 app.use('/cards', cardRoutes);
+app.use('*', (req, res) => {
+  res.status(404).send({ message: 'Ошибка 404' });
+});
 app.listen(PORT, () => {
   console.log(`Executing on ${PORT}`);
 });
