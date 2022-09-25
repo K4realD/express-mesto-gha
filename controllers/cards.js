@@ -32,7 +32,7 @@ const deleteCard = (req, res) => {
     })
     .then((card) => {
       Cards.deleteOne(card).then(() => {
-        res.send({ card });
+        res.send(card);
       });
     })
     .catch((err) => {
