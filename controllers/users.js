@@ -17,14 +17,7 @@ const getUserById = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({
-          message:
-            'Неверно введены данные',
-        });
-      } else {
-        res.status(500).send({ message: `Произошла ошибка: ${err}` });
-      }
+      res.status(500).send({ message: `Произошла ошибка: ${err}` });
     });
 };
 
@@ -48,7 +41,7 @@ const createUser = (req, res) => {
 
 const updateUser = (req, res) => {
   const { name, about } = req.body;
-  Users.findByIdAndUpdate(req.user._id, { name, about }, { new: true })
+  Users.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (user) {
         res.send(user);
@@ -70,7 +63,7 @@ const updateUser = (req, res) => {
 
 const updateAvatar = (req, res) => {
   const { avatar } = req.body;
-  Users.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
+  Users.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => {
       if (user) {
         res.send(user);
