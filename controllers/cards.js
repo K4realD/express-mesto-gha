@@ -26,15 +26,24 @@ const createCard = (req, res) => {
 };
 
 const deleteCard = (req, res) => {
-  Cards.findByIdAndRemove(req.params.cardId)
-    .then((card) => {
-      if (card) {
-        res.send(card);
-      } else {
-        res.status(404).send({ message: 'Карточка не найдена' });
-      }
+  Cards.findById(req.params.cardId)
+    .orFail(() => {
+      res.status(404).send({ message: 'Карточка не найдена' });
     })
-    .catch((err) => res.status(500).send({ message: `Произошла ошибка: ${err}` }));
+    .then((card) => {
+      Cards.deleteOne(card).then(() => {
+        res.send({ card });
+      });
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(400).send({
+          message: 'Переданы некорректные данные',
+        });
+      } else {
+        res.status(500).send({ message: `Произошла ошибка: ${err}` });
+      }
+    });
 };
 
 const likeCard = (req, res) => {
