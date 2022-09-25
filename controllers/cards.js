@@ -8,16 +8,16 @@ const getCards = (_, res) => {
 
 const createCard = (req, res) => {
   const { name, link } = req.body;
-  const ownerID = req.user._id;
-  Cards.create({ name, link, owner: ownerID })
+  const ownerId = req.user._id;
+  Cards.create({ name, link, owner: ownerId })
     .then((card) => {
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({
           message:
-            'Неверно введены данные',
+          `Неверные данные, ошибка: ${err}`,
         });
       } else {
         res.status(500).send({ message: `Произошла ошибка: ${err}` });

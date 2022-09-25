@@ -9,12 +9,11 @@ const getUsers = (_, res) => {
 const getUserById = (req, res) => {
   const { userId } = req.params;
   Users.findById(userId)
+    .onFail(() => {
+      res.status(404).send({ message: 'Пользователь не найден' });
+    })
     .then((user) => {
-      if (user) {
-        res.send(user);
-      } else {
-        res.status(404).send({ message: 'Пользователь не найден' });
-      }
+      res.send(user);
     })
     .catch((err) => {
       res.status(500).send({ message: `Произошла ошибка: ${err}` });
