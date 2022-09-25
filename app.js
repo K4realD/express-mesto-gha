@@ -19,7 +19,7 @@ app.use((req, _, next) => {
   next();
 });
 app.use('/users', userRoutes);
-app.use('/cars', cardRoutes);
+app.use('/cards', cardRoutes);
 app.listen(PORT, () => {
   console.log(`Executing on ${PORT}`);
 });

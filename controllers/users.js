@@ -9,7 +9,7 @@ const getUsers = (_, res) => {
 const getUserById = (req, res) => {
   const { userId } = req.params;
   Users.findById(userId)
-    .onFail(() => {
+    .orFail(() => {
       res.status(404).send({ message: 'Пользователь не найден' });
     })
     .then((user) => {
