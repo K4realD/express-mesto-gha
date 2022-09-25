@@ -44,17 +44,16 @@ const likeCard = (req, res) => {
     { new: true, runValidators: true },
   )
     .then((card) => {
-      if (card) {
-        res.status(200).send(card);
-      } else {
+      if (!card) {
         res.status(404).send({ message: 'Карточка не найдена' });
+        return;
       }
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         res.status(400).send({
-          message:
-            'Неверные данные',
+          message: 'Переданы некорректные данные',
         });
       } else {
         res.status(500).send({ message: `Произошла ошибка: ${err}` });
@@ -69,17 +68,16 @@ const dislikeCard = (req, res) => {
     { new: true, runValidators: true },
   )
     .then((card) => {
-      if (card) {
-        res.status(200).send(card);
-      } else {
+      if (!card) {
         res.status(404).send({ message: 'Карточка не найдена' });
+        return;
       }
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         res.status(400).send({
-          message:
-          'Неверные данные',
+          message: 'Переданы некорректные данные',
         });
       } else {
         res.status(500).send({ message: `Произошла ошибка: ${err}` });
