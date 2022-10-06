@@ -22,11 +22,11 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
 });
 
+app.post('/signin', authValidator, login);
+app.post('/signup', registretionValidator, createUser);
 app.use(auth);
 app.use('/users', userRoutes);
 app.use('/cards', cardRoutes);
-app.post('/signin', authValidator, login);
-app.post('/signup', registretionValidator, createUser);
 app.use('*', (req, res) => {
   res.status(404).send({ message: 'Ошибка 404' });
 });
