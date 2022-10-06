@@ -49,6 +49,7 @@ const createUser = (req, res, next) => {
     .then((user) => {
       res.send({
         data: {
+          _id: user._id,
           name: user.name,
           about: user.about,
           avatar: user.avatar,
@@ -73,7 +74,7 @@ const getCurrentUser = (req, res, next) => {
       throw new NotFoundError('Пользователеь не найден');
     })
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
