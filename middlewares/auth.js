@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
-const { NODE_ENV, JWT_SECRET = 'dev-secret' } = process.env;
-
 const auth = (req, _, next) => {
   const token = req.cookies.jwt;
   let payload;
@@ -10,7 +8,7 @@ const auth = (req, _, next) => {
   try {
     payload = jwt.verify(
       token,
-      `${NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'}`,
+      'dev-secret',
     );
   } catch (err) {
     throw new UnauthorizedError('Неверный электронный адрес или пароль');
