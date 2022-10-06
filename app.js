@@ -30,8 +30,8 @@ app.use('/cards', cardRoutes);
 app.use('*', (req, res) => {
   res.status(404).send({ message: 'Ошибка 404' });
 });
-app.use(error);
 app.use(errors());
+app.use(error);
 app.listen(PORT, () => {
   console.log(`Executing on ${PORT}`);
 });
