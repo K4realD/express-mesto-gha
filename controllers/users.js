@@ -5,6 +5,7 @@ const Users = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
 const ValidationError = require('../errors/ValidationError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const getUsers = (_, res, next) => {
   Users.find({})
@@ -154,7 +155,12 @@ const login = (req, res, next) => {
         .send({ message: 'Авторизация успешна' })
         .end();
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'UnauthorizedError') {
+        next(new UnauthorizedError('Неверный email или пароль'));
+      }
+      next(err);
+    });
 };
 
 module.exports = {
