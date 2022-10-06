@@ -73,7 +73,7 @@ const getCurrentUser = (req, res, next) => {
       throw new NotFoundError('Пользователеь не найден');
     })
     .then((user) => {
-      res.send(user);
+      res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
