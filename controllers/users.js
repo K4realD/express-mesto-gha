@@ -141,6 +141,9 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
 
   Users.findUserByCredentials(email, password)
+    .orFail(() => {
+      throw new UnauthorizedError('Неверный email или пароль');
+    })
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
