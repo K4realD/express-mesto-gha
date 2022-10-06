@@ -5,7 +5,6 @@ const Users = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
 const ValidationError = require('../errors/ValidationError');
-const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const getUsers = (_, res, next) => {
   Users.find({})
@@ -141,9 +140,6 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
 
   Users.findUserByCredentials(email, password)
-    .orFail(() => {
-      throw new UnauthorizedError('Неверный email или пароль');
-    })
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
@@ -158,12 +154,7 @@ const login = (req, res, next) => {
         .send({ message: 'Авторизация успешна' })
         .end();
     })
-    .catch((err) => {
-      if (err.name === 'UnauthorizedError') {
-        next(new UnauthorizedError('Неверный email или пароль'));
-      }
-      next(err);
-    });
+    .catch(next);
 };
 
 module.exports = {
