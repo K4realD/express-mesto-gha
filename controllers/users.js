@@ -24,7 +24,7 @@ const getUserById = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
       } else if (err.name === 'NotFoundError') {
         next(new NotFoundError('Пользователеь не найден'));
@@ -55,11 +55,12 @@ const createUser = (req, res, next) => {
           about: user.about,
           avatar: user.avatar,
           email: user.email,
+          _id: user._id,
         },
       });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
       } else if (err.code === 11000) {
         next(new ConflictError('Такой пользователь уже существует'));
@@ -80,7 +81,7 @@ const getCurrentUser = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
       } else if (err.name === 'NotFoundError') {
         next(new NotFoundError('Пользователеь не найден'));
@@ -104,7 +105,7 @@ const updateUser = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
       } else if (err.name === 'NotFoundError') {
         next(new NotFoundError('Пользователеь не найден'));
@@ -128,7 +129,7 @@ const updateAvatar = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
       } else if (err.name === 'NotFoundError') {
         next(new NotFoundError('Пользователеь не найден'));
