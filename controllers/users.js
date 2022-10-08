@@ -24,8 +24,6 @@ const getUserById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователеь не найден'));
       } else {
         next(err);
       }
@@ -77,15 +75,7 @@ const getCurrentUser = (req, res, next) => {
     .then((user) => {
       res.send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new ValidationError('Неверно введены данные'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователеь не найден'));
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
 
 const updateUser = (req, res, next) => {
@@ -104,8 +94,6 @@ const updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователеь не найден'));
       } else {
         next(err);
       }
@@ -128,8 +116,6 @@ const updateAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователеь не найден'));
       } else {
         next(err);
       }
@@ -157,6 +143,10 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
+const signout = (_, res) => {
+  res.clearCookie('jwt').send({ message: 'Выход' });
+};
+
 module.exports = {
   getUsers,
   getUserById,
@@ -165,4 +155,5 @@ module.exports = {
   updateAvatar,
   getCurrentUser,
   login,
+  signout,
 };

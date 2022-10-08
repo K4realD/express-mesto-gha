@@ -43,12 +43,11 @@ const deleteCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Карточка не найдена'));
       } else {
         next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 const likeCard = (req, res, next) => {
@@ -66,8 +65,6 @@ const likeCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Карточка не найдена'));
       } else {
         next(err);
       }
@@ -89,8 +86,6 @@ const dislikeCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Неверно введены данные'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('Карточка не найдена'));
       } else {
         next(err);
       }
